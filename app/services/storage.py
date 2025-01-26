@@ -26,7 +26,7 @@ class JsonFileStorage(StorageStrategy):
     def __init__(self, file_path: str = settings.LOCAL_STORAGE_PATH):
         self.file_path = file_path
         # Create directory if it doesn't exist
-        directory = os.path.dirname(file_path)
+        directory = os.path.dirname(self.file_path)
         if not os.path.exists(directory):
             logging.info(f"Directory {directory} not found. Creating it now.")
             os.makedirs(directory, exist_ok=True)
