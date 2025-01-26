@@ -24,14 +24,11 @@ class DentalStallScraper(ScraperStrategy):
     """Concrete implementation for scraping DentalStall website"""
 
     def __init__(self):
-        # Configure timeout for requests
         self.timeout = ClientTimeout(total=30, connect=10)
-        # Configure headers to properly handle compression
         self.headers = {
             'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
             'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
             'Accept-Language': 'en-US,en;q=0.9',
-            # Explicitly state which compressions we support
             'Accept-Encoding': 'gzip, deflate, br',
             'Connection': 'keep-alive',
             'Cache-Control': 'no-cache',
@@ -83,12 +80,10 @@ class DentalStallScraper(ScraperStrategy):
         Returns the path where the image was saved.
         """
         try:
-            # Create sanitized filename from product title
             safe_title = "".join(c for c in product_title if c.isalnum() or c in (' ', '-', '_'))
-            safe_title = safe_title[:50].strip()  # Limit filename length
+            safe_title = safe_title[:50].strip()
             filename = f"{safe_title}.jpg"
             
-            # Ensure image directory exists
             os.makedirs(settings.IMAGE_STORAGE_PATH, exist_ok=True)
             filepath = os.path.join(settings.IMAGE_STORAGE_PATH, filename)
             
@@ -119,10 +114,8 @@ class DentalStallScraper(ScraperStrategy):
         Main scraping method that coordinates the entire scraping process.
         This method manages the session, handles pagination, and collects all products.
         """
-        # Initialize an empty list to store all products
-        all_products = []  # This is the key fix - we need to define our products list
+        all_products = []
 
-        # Configure our session with proper headers for a realistic browser request
         self.headers = {
             'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
             'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
