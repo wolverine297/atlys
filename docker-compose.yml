@@ -1,0 +1,29 @@
+version: '3.8'
+services:
+  redis:
+    image: redis:latest
+    container_name: auth-fastapi
+    ports:
+      - "6379:6379"
+    command: >
+      --requirepass Jordan297
+      --appendonly yes
+    environment:
+      - REDIS_PASSWORD=Jordan297
+    networks:
+      - scraper_network
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: redis-cli -a Jordan297 ping
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+volumes:
+  redis_data:
+    driver: local
+
+networks:
+  scraper_network:
+    driver: bridge
